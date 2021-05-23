@@ -22,6 +22,21 @@ Follow the below steps to create your OpenWeather API key
 ## Creating environment variables
 To set your environment variables with your Weather API credentials, you first need to create your `.env` file. This is done by renaming the existing `env.example` file to `.env`. In this file, populate the `REACT_APP_WEATHER_API` variable with your OpenWeatherMap API Key. The other variables have been populated already.
 
+## Installation
+
+**Clone repository**:
+Use the below command.
+
+```bash
+git clone https://github.com/jhammoudi/weather-widget.git
+```
+
+**Dependency Installation**:
+Run the below commands to install dependencies.
+```bash
+cd weather-widget
+npm install
+```
 
 ## Available Scripts
 
