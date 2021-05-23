@@ -122,6 +122,7 @@ const App = () => {
           setUnits={setUnits}
           setLocation={setLocation}
         />
+        Developed by Jihad Hammoudi
       </Box>
     </Container>
   );
