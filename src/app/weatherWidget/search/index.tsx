@@ -33,21 +33,28 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Search = ({ units, setUnits, setLocation }: SearchProps) => {
+    // initialising state
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState<any[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [error, setError] = useState(false);
+
+    // sets debouncedSearchTerm after user types in search query
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const classes = useStyles();
 
+    // this function will be triggered when the debouncedSearchTerm is modified
     useEffect(
         () => {
             if (debouncedSearchTerm) {
+                // if debouncedSearchTerm exists, then to display searching prompt, and search for a location
                 setIsSearching(true);
                 searchLocations(debouncedSearchTerm).then(results => {
+                    // if location is found, remove searching prompt, and set the results state
                     setIsSearching(false);
                     setResults(results);
                     if (results.length === 0) {
+                        // if the user searches for a location, but no results are found, then display error message
                         setError(true)
                     } else {
                         setError(false)
@@ -60,6 +67,7 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
         [debouncedSearchTerm]
     );
 
+    // when a user clicks a location result, it will set the location based on the selected location's coordinates
     const handleOnClick = (result: any) => {
         const { lat, lon } = result
         setLocation({
@@ -69,6 +77,7 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
         setResults([])
     }
 
+    // makes API call which will search for all locations based on the search value
     const searchLocations = (search: any) => {
         const params = {
             limit: 3,

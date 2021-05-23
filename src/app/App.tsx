@@ -6,6 +6,7 @@ import axios from 'axios'
 import WeatherWidget from './weatherWidget/'
 
 const App = () => {
+  // initialising state
   const [currentWeather, setCurrentWeather] = useState({})
   const [forecast, setForecast] = useState(Array)
   const [units, setUnits] = useState('metric')
@@ -14,6 +15,7 @@ const App = () => {
     lon: 0
   })
 
+  // will filter and return a map of only the needed fields from API
   const filterCurrentWeather = (data: any) => {
     const filteredMap = {
       location: data.name,
@@ -29,6 +31,7 @@ const App = () => {
     return filteredMap
   }
 
+  // will filter and return a map of only the needed fields from API
   const filterForecast = (data: any) => {
     return data.map((day: any) => {
       return {
@@ -45,6 +48,7 @@ const App = () => {
     })
   }
 
+  // sets parameters, and makes API call to fetch current weather data, and stores to state
   const fetchCurrentWeather = () => {
     const params = {
       lat: location.lat,
@@ -65,6 +69,7 @@ const App = () => {
       });
   }
 
+  // sets parameters, and makes API call to fetch forecast weather data, and stores to state
   const fetchForecast = () => {
     const params = {
       lat: location.lat,
@@ -86,7 +91,9 @@ const App = () => {
       });
   }
 
+  // this will run when webpage is first loaded
   useEffect(() => {
+    // if user accepts to use location, it retrieves the browser's coordinates, and stores it to state
     navigator.geolocation.getCurrentPosition(function (position) {
       setLocation({
         lat: position.coords.latitude,
@@ -95,8 +102,10 @@ const App = () => {
     });
   }, []);
 
+  // when the units or location state values are modified, it will trigger this function to run
   useEffect(() => {
     if (location.lon && location.lat) {
+      // runs API calls to fetch current weather and forecast data
       fetchCurrentWeather()
       fetchForecast()
     }

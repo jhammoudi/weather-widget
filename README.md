@@ -2,6 +2,27 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![Weather Widget Walkthrough](./assets/weather-widget.gif)
+
+## How to use
+* When this web app is opened for the first time, your browser will request permissions to use your location. It is important to approve this, to allow it to use current location to fetch your local weather.
+* Users can type a location in the provided search bar to search for a location. Based on the search term, only locations which match that search term, will be retrieved. After searching for a location, click your desired location to fetch its current and forecasted weather data.
+* When searching for a small area location (i.e Barangaroo), it will instead display weather of the outer region or city that it belongs to (i.e Sydney).
+* In the toggle buttons, below the search bar, users can toggle between viewing 'Metric' or 'Imperial' data.
+* Users can view the selected location's current weather data, as well as 7-day forecasted data.
+    - In the current weather section, it display the current temperature, humidity, wind speed, weather icon, and more.
+    - In the forecast weather section, it display each day's max and min temperatures, including the weather icon.
+
+## Creating Free OpenWeatherMap API key
+Follow the below steps to create your OpenWeather API key
+1. Navigate to [OpenWeatherMap](https://openweathermap.org/), and create Free account. Sign up page is found [here](https://home.openweathermap.org/users/sign_up). You will also need to confirm your email address before you are able to continue.
+2. Once your email is confirmed, you will receive a Welcome email containing your API key. Make a note of this API key as you will need it later on. This API key can also be found in the [API keys](https://home.openweathermap.org/api_keys) page, while signed in.
+
+
+## Creating environment variables
+To set your environment variables with your Weather API credentials, you first need to create your `.env` file. This is done by renaming the existing `env.example` file to `.env`. In this file, populate the `REACT_APP_WEATHER_API` variable with your OpenWeatherMap API Key. The other variables have been populated already.
+
+
 ## Available Scripts
 
 In the project directory, you can run:

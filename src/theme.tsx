@@ -1,6 +1,7 @@
 import { red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
+// creates a mui theme, to be used throughout the app
 const theme = createMuiTheme({
     palette: {
         primary: {

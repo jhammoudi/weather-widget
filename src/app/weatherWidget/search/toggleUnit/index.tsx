@@ -9,6 +9,7 @@ type ToggleUnitProps = {
 const ToggleUnit = ({ units, setUnits }: ToggleUnitProps) => {
 
     const handleUnits = (event: React.MouseEvent<HTMLElement>, newUnit: string | null) => {
+        // will update the units only if the newUnit value is not null
         if (newUnit !== null) {
             setUnits(newUnit);
         }
