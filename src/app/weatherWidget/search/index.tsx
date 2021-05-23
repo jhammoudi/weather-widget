@@ -100,6 +100,7 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
         <Box display="flex" flexDirection="column" alignItems="center" padding="2rem">
             <Box width="60%">
                 <TextField
+                    data-testid="outlined-search"
                     fullWidth
                     id="outlined-search"
                     label="Search Locations"
@@ -117,7 +118,7 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
                 />
             </Box>
             { isSearching && <div style={{ paddingTop: "2rem" }}>Searching ...</div>}
-            <List className={classes.root}>
+            <List data-testid="search-results" aria-label="search-results" className={classes.root}>
                 {error &&
                     <Typography
                         component="span"
