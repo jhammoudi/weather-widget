@@ -1,4 +1,5 @@
 import React from 'react';
+import Divider from '@material-ui/core/Divider';
 
 import CurrentWeather from './current/'
 import Forecast from './forecast/'
@@ -15,8 +16,9 @@ const WeatherWidget = ({ forecast, current, units, setUnits, setLocation }: Weat
     return (
         <div>
             <Search setLocation={setLocation} units={units} setUnits={setUnits} />
-            <CurrentWeather current={current} units={units} />
-            <Forecast forecast={forecast} units={units} />
+            {Object.keys(current).length > 0 && <CurrentWeather current={current} units={units} />}
+            <Divider variant="middle" />
+            {forecast.length > 0 && <Forecast forecast={forecast} />}
         </div>
     );
 }

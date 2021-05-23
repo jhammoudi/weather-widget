@@ -36,7 +36,10 @@ const App = () => {
         humidity: day.humidity,
         icon: day.weather[0].icon,
         precipitation: day.rain,
-        temp: day.temp.day.toFixed(1),
+        temp: {
+          min: day.temp.min.toFixed(1),
+          max: day.temp.max.toFixed(1)
+        },
         description: day.weather[0].main
       }
     })
@@ -70,6 +73,7 @@ const App = () => {
       appid: process.env.REACT_APP_WEATHER_API,
       exclude: 'hourly,minutely,timezone_offset'
     }
+
     axios
       .get(`https://api.openweathermap.org/data/2.5/onecall?`, {
         params
@@ -100,8 +104,8 @@ const App = () => {
   }, [units, location]);
 
   return (
-    <Container maxWidth={false}>
-      <Box padding="5rem">
+    <Container maxWidth="md">
+      <Box justifyContent="center" paddingTop="5rem" paddingBottom="5rem">
         <WeatherWidget
           forecast={forecast}
           current={currentWeather}

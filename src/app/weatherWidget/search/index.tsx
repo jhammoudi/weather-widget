@@ -10,6 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from '@material-ui/icons/Search';
 
 type SearchProps = {
     units: string,
@@ -19,9 +22,9 @@ type SearchProps = {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            padding: "2rem",
             width: '100%',
-            maxWidth: '36ch',
-            backgroundColor: theme.palette.background.paper,
+            maxWidth: 500,
         },
         inline: {
             display: 'inline',
@@ -33,6 +36,7 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState<any[]>([]);
     const [isSearching, setIsSearching] = useState(false);
+    const [error, setError] = useState(false);
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const classes = useStyles();
 
@@ -42,8 +46,12 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
                 setIsSearching(true);
                 searchLocations(debouncedSearchTerm).then(results => {
                     setIsSearching(false);
-                    console.log("settings results", results)
                     setResults(results);
+                    if (results.length === 0) {
+                        setError(true)
+                    } else {
+                        setError(false)
+                    }
                 });
             } else {
                 setResults([]);
@@ -53,12 +61,12 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
     );
 
     const handleOnClick = (result: any) => {
-        console.log("clicked", result)
         const { lat, lon } = result
         setLocation({
             lat,
             lon
         })
+        setResults([])
     }
 
     const searchLocations = (search: any) => {
@@ -75,19 +83,44 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
                 r.data
             )
             .catch(error => {
-                console.error(error);
                 return [];
             });
     }
 
     return (
-        <div>
-            <TextField id="outlined-search" label="Search Locations" type="search" variant="outlined" onChange={e => setSearchTerm(e.target.value)} />
-            <ToggleUnit units={units} setUnits={setUnits} />
-            {isSearching && <div>Searching ...</div>}
+        <Box display="flex" flexDirection="column" alignItems="center" padding="2rem">
+            <Box width="60%">
+                <TextField
+                    fullWidth
+                    id="outlined-search"
+                    label="Search Locations"
+                    type="search"
+                    variant="standard"
+                    color="secondary"
+                    onChange={e => setSearchTerm(e.target.value)}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position='start'>
+                                <SearchIcon color="secondary" />
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+            </Box>
+            { isSearching && <div style={{ paddingTop: "2rem" }}>Searching ...</div>}
             <List className={classes.root}>
+                {error &&
+                    <Typography
+                        component="span"
+                        variant="h6"
+                        className={classes.inline}
+                        color="error"
+                    >
+                        No locations found
+                    </Typography>
+                }
                 {results && results.map((result, index) => (
-                    <ListItem divider disableGutters button onClick={() => handleOnClick(result)} key={index}>
+                    <ListItem divider dense button onClick={() => handleOnClick(result)} key={index}>
                         <ListItemIcon>
                             <img src={`${process.env.REACT_APP_WEATHER_URL}/images/flags/${result.country.toLowerCase()}.png`} alt="Country Flag" />
                         </ListItemIcon>
@@ -107,7 +140,8 @@ const Search = ({ units, setUnits, setLocation }: SearchProps) => {
                     </ListItem>
                 ))}
             </List>
-        </div>
+            <ToggleUnit units={units} setUnits={setUnits} />
+        </Box >
     );
 }
 
